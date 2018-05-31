@@ -72,6 +72,7 @@ app.use(function (state, emitter) {
       console.log(!!state.tree, !!state.ballotRaf, state.tree && state.ballotRaf)
       if (state.tree && state.ballotRaf) {
         state.ballot = ballot(state.ballotRaf, state.tree)
+        emitter.emit('render')
       }
 
       if (pubs) {
