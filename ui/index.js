@@ -106,7 +106,6 @@ function render (state, emit) {
     title: 'Home',
     label: 'HOME',
     cb: function () {
-      console.log(state.currentTab = 'home')
       emit('render')
       return state.currentTab = 'home'
     }
@@ -117,7 +116,6 @@ function render (state, emit) {
     label: 'VOTE',
     cb: function () {
       if (!state.tree || !state.pubs || !state.secs) return state.currentTab = 'home'
-      console.log(state.currentTab = 'vote')
       emit('render')
       return state.currentTab = 'vote'
     }
@@ -128,7 +126,6 @@ function render (state, emit) {
     label: 'PROOF',
     cb: function () {
       if (!state.tree || !state.pubs || !state.secs) return state.currentTab = 'home'
-      console.log(state.currentTab = 'proof')
       emit('render')
       return state.currentTab = 'proof'
     }
@@ -139,7 +136,6 @@ function render (state, emit) {
     label: 'TOOLS',
     cb: function () {
       if (!state.tree || !state.pubs || !state.secs) return state.currentTab = 'home'
-      console.log(state.currentTab = 'tools')
       emit('render')
       return state.currentTab = 'tools'
     }
