@@ -13,12 +13,15 @@ var sodium = require('sodium-universal')
 
 css('tachyons')
 
+
 var app = choo()
 if (process.env.NODE_ENV !== 'production') {
   app.use(require('choo-devtools')())
 } else {
   app.use(require('choo-service-worker')())
 }
+
+document.title = "Bitfinex Ballot"
 
 function dataFiles (files, cb) {
   var jsons = files.filter(f => f.name.endsWith('.json'))
@@ -192,7 +195,7 @@ function render (state, emit) {
         return false
       }
     }))
-    items.push(panel({
+    /*items.push(panel({
       title: 'Proof',
       description: html`<span>
         Retrieve all required nodes to construct a full balance proof, that
@@ -232,7 +235,7 @@ function render (state, emit) {
         })
         return false
       }
-    }))
+    }))*/
   }
 
   if (state.tree && state.pubs && state.secs && state.currentTab == 'vote') {
@@ -250,7 +253,10 @@ function render (state, emit) {
       label: 'Sign',
       data: JSON.stringify(state.votes, null, 2),
       cb: function () {
-        if (state.currentCandidate == false) return false
+         if (!state.currentCandidate) {
+          alert('Insert an option')
+          return false
+        }
 
         var cand = state.currentCandidate // avoid concurrency issue
         var votes = []
@@ -315,7 +321,10 @@ function render (state, emit) {
         signatures: state.signatures
       }, null, 2),
       cb: function () {
-        if (state.ownershipMessage == false) return false
+        if (!state.ownershipMessage) {
+          alert('Insert a proof of ownership message')
+          return false
+        }
 
         if (state.secs.length !== state.pubs.length) {
           return alert('Mismatch pubs.size vs secs.size')
@@ -354,7 +363,10 @@ function render (state, emit) {
         verify: state.verifiedOwnership
       }, null, 2),
       cb: function () {
-        if (state.verifyOwnershipMessage == false) return false
+        if (!state.verifyOwnershipMessage) {
+          alert('Insert a message to verify ownership')
+          return false
+        }
         var verifyOwnershipMessage = null
         try { verifyOwnershipMessage = JSON.parse(state.verifyOwnershipMessage) } catch(err) {
           return alert('Invalid Message')
@@ -387,22 +399,22 @@ function render (state, emit) {
           <dd class="${descCss} ml3 mt1 gray">Drag and drop the following files to activate the app</dd>
           <div>
             <dl class="f6 lh-title mv2">
-              <dt class="dib b"><code>balances.json</code>:</dt>
+              <dt class="dib b"><code>balances.json</code></dt>
               ${state.tree ? html`<dd class="${green} dib ml1">✔︎</dd>` : html`<dd class="dib ml1 red">✗</dd>`}
               <dd class="ml3 mt1 gray">File containing the merkle tree of all account balances</dd>
             </dl>
             <dl class="f6 lh-title mv2">
-              <dt class="dib b"><code>keys.pub</code>:</dt>
+              <dt class="dib b"><code>keys.pub</code></dt>
               ${state.pubs ? html`<dd class="${green} dib ml1">✔︎</dd>` : html`<dd class="dib ml1 red">✗</dd>`}
               <dd class="ml3 mt1 gray">List of public keys you wish to verify</dd>
             </dl>
             <dl class="f6 lh-title mv2">
-              <dt class="dib b"><code>keys.sec</code>:</dt>
+              <dt class="dib b"><code>keys.sec</code></dt>
               ${state.secs ? html`<dd class="${green} dib ml1">✔︎</dd>` : html`<dd class="dib ml1 red">✗</dd>`}
               <dd class="ml3 mt1 gray">List of secret keys to prove ownership or cast vote</dd>
             </dl>
             <dl class="f6 lh-title mv2">
-              <dt class="dib b"><code>ballot.json</code>:</dt>
+              <dt class="dib b"><code>ballot.json</code></dt>
               ${state.ballot ? html`<dd class="${green} dib ml1">✔︎</dd>` : html`<dd class="dib ml1 red">✗</dd>`}
               <dd class="ml3 mt1 gray">File containing a ballot list of cast votes, so it can be verified and tallied. Required <code>balances.json</code> to be present</dd>
             </dl>
@@ -438,6 +450,7 @@ var panelCss = css`
   :host pre {
     flex: 2 2;
     color: rgba(255,255,255,0.9);
+    max-height: 300px;
   }
 
   :host button {
