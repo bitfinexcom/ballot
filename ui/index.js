@@ -321,7 +321,6 @@ function render (state, emit) {
         signatures: state.signatures
       }, null, 2),
       cb: function () {
-        //if (state.ownershipMessage == false) return false
         if (!state.ownershipMessage) {
           alert('Insert a proof of ownership message')
           return false
