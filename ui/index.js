@@ -192,7 +192,7 @@ function render (state, emit) {
         return false
       }
     }))
-    items.push(panel({
+    /*items.push(panel({
       title: 'Proof',
       description: html`<span>
         Retrieve all required nodes to construct a full balance proof, that
@@ -232,7 +232,7 @@ function render (state, emit) {
         })
         return false
       }
-    }))
+    }))*/
   }
 
   if (state.tree && state.pubs && state.secs && state.currentTab == 'vote') {
@@ -438,6 +438,7 @@ var panelCss = css`
   :host pre {
     flex: 2 2;
     color: rgba(255,255,255,0.9);
+    max-height: 300px;
   }
 
   :host button {
