@@ -166,7 +166,7 @@ function render (state, emit) {
 
   if (state.tree && state.pubs && state.currentTab == 'proof') {
     items.push(panel({
-      title: 'Bucket',
+      title: 'Buckets',
       description: html`<span>Retrieve balance data for all public keys in <code>keys.pub</code></span>`,
       label: 'Retrieve',
       data: JSON.stringify(state.buckets, null, 2),
@@ -186,7 +186,12 @@ function render (state, emit) {
             buckets[i] = b
 
             if (missing === 0) {
-              state.buckets = buckets
+              state.buckets = {
+                total: buckets.reduce(buckets, function(acc, b) {
+                  return acc + b.amount
+                }, 0),
+                buckets: buckets
+              }
               emit('render')
             }
           })
