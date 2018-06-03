@@ -1,7 +1,7 @@
 # ballot
 *(Official bitfinex.com Ballot website)*
 
-Baed on Antani, a library containing two cryptographic data structures.
+Based on Antani, a library containing two cryptographic data structures.
 
 A balance tree that allows you to write a series of signed account balances to a merkle tree. This tree is summing up each
 individual balance to a root that can be used to verify the solvancy of all balances combined. To avoid leaking metadata
