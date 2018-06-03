@@ -21,8 +21,6 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(require('choo-service-worker')())
 }
 
-document.title = "Bitfinex Ballot"
-
 function dataFiles (files, cb) {
   var jsons = files.filter(f => f.name.endsWith('.json'))
   var result = {}
@@ -47,6 +45,7 @@ function dataFiles (files, cb) {
 
 app.use(function (state, emitter) {
   if (global.document == null) return
+  document.title = "Bitfinex Ballot"
 
   drop(global.document.body, function (files) {
     dataFiles(files, function (jsonFiles) {
