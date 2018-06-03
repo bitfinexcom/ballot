@@ -387,10 +387,11 @@ function render (state, emit) {
   return html`<body style="min-height: 100vh;" class="${bodyCss} sans-serif">
     <article class="ph3 ph5-ns pv5">
       <header class="black-80 tc avenir">
-        <img src="assets/ballot2.svg" class="${logoCss}" alt="ballot-logo">
+        <img src="assets/ballot.svg" class="${logoCss}" alt="ballot-logo">
         <p class="f6 ttu tracked gray" style="text-transform: none;">//Proof\u00A0of\u00A0Solvency, Custody and Delegated\u00A0Proof\u00A0of\u00A0Vote</p>
         <div class="${tabsCss}">
           ${tabs}
+          <a href="https://support.bitfinex.com/hc/en-us/articles/360005265234" target="_blank" class="f6 no-underline dib v-mid ba ph3 pv2 pointer dim">HELP <img src="assets/exlink.svg" alt="external-link"></a>
         </div>
       </header>
       ${state.currentTab == 'home' || (!state.currentTab || !state.tree || !state.pubs || !state.secs) ? html`
@@ -488,10 +489,21 @@ var tabsCss = css`
   }
 
   :host button {
-    //background: #1c1c1c;
     background: transparent;
     border: none;
     color: rgba(255,255,255,1);
+  }
+
+  :host a {
+    background: transparent;
+    border: none;
+    font-weight: 500;
+    color: rgba(255,255,255,1);
+  }
+
+  :host img {
+    width: 16px;
+    padding-left: 2px;
   }
 `
 
@@ -519,7 +531,7 @@ var descCss = css`
   }
 `
 function tab (obj) {
-  return html`<button onclick=${obj.cb} class="f6 no-underline dib v-mid bg-white black ba b--white ph3 pv2 pointer dim">${obj.label}</button>`
+  return html`<button onclick=${obj.cb} class="f6 no-underline dib v-mid ba ph3 pv2 pointer dim">${obj.label}</button>`
 }
 
 function panel (obj) {
