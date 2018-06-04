@@ -317,7 +317,7 @@ function render (state, emit) {
       description: html`<span>
         Sign a message with each of your secret keys, to prove ownership of your
         public keys<br>
-        <input class="pa2 input-reset ba bg-transparent w-100" oninput=${onOwnershipMessageInput} value="${state.ownershipMessage || ''}" placeholder="proof of ownership message" name="message"/>
+        <input class="pa2 input-reset ba bg-transparent w-100" oninput=${onOwnershipMessageInput} value="${state.ownershipMessage || ''}" placeholder="Proof of ownership message" name="message"/>
       </span>`,
       label: 'Sign',
       data: JSON.stringify({
@@ -360,7 +360,7 @@ function render (state, emit) {
       title: 'Verify Ownership',
       description: html`<span>
         Verify a message using the owner's public keys<br>
-        <textarea class="pa2 input-reset ba bg-transparent w-100" oninput=${onVerifyOwnershipMessageInput} value="${state.verifyOwnershipMessage || ''}" placeholder="validate ownership of a message" name="message"></textarea>
+        <textarea class="pa2 input-reset ba bg-transparent w-100" oninput=${onVerifyOwnershipMessageInput} value="${state.verifyOwnershipMessage || ''}" placeholder="Validate ownership of a message" name="message"></textarea>
       </span>`,
       label: 'Verify',
       data: JSON.stringify({
@@ -468,6 +468,14 @@ var panelCss = css`
     background-color: #333;
     color: rgba(255,255,255,0.9);
     border-color: #000;
+  }
+
+  :host textarea {
+    margin-top: 8px;
+    background-color: #333;
+    color: rgba(255,255,255,0.9);
+    border-color: #000;
+    min-height: 200px;
   }
 `
 
