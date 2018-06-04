@@ -250,8 +250,8 @@ function render (state, emit) {
     items.push(panel({
       title: 'Voting',
       description: html`<span>
-        Sign a vote with each of your secret keys, which can be send to
-        <code>antani-ballot</code><br>
+        Cast a vote with each of your secret keys, which can be sent to
+        <a href="https://www.bitfinex.com/reports/proofs" target="_blank">bitfinex-ballot</a><br />
         <input class="pa2 input-reset ba bg-transparent w-100" oninput=${oncandidateinput} value="${state.currentCandidate || ''}" placeholder="Option 1" name="candidate"/>
       </span>`,
       label: 'Sign',
