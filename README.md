@@ -212,4 +212,3 @@ End the vote log so it can be tallied.
 ## License
 
 MIT
->>>>>>> upstream/master
