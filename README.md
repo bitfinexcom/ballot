@@ -1,7 +1,7 @@
 # ballot
 *(Official bitfinex.com Ballot website)*
 
-Based on Antani, a library containing two cryptographic data structures.
+Based on [Antani](https://github.com/bitfinexcom/antani), a library containing two cryptographic data structures.
 
 Antani is a library for efficiently proving solvency and delegated off-chain
 voting.
@@ -212,4 +212,3 @@ End the vote log so it can be tallied.
 ## License
 
 MIT
->>>>>>> upstream/master
