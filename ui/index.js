@@ -118,7 +118,7 @@ function render (state, emit) {
     title: 'Vote',
     label: 'VOTE',
     cb: function () {
-      if (!state.tree || !state.pubs || !state.secs) return state.currentTab = 'home'
+      if (!state.tree || (!(state.pubs && state.secs) && !state.ballot)) return state.currentTab = 'home'
       emit('render')
       return state.currentTab = 'vote'
     }
@@ -242,50 +242,52 @@ function render (state, emit) {
     }))*/
   }
 
-  if (state.tree && state.pubs && state.secs && state.currentTab == 'vote') {
+  if (state.tree && ((state.pubs && state.secs) || state.ballot) && state.currentTab == 'vote') {
     function oncandidateinput () {
       state.currentCandidate = this.value
     }
 
-    items.push(panel({
-      title: 'Voting',
-      description: html`<span>
+    if (state.pubs && state.secs && state.currentTab == 'vote') {
+      items.push(panel({
+        title: 'Voting',
+        description: html`<span>
         Cast a vote with each of your secret keys, which can be sent to<br />
         <a href="https://www.bitfinex.com/reports/proofs" target="_blank" style='color: white;'>bitfinex-ballot</a><br />
         <input class="pa2 input-reset ba bg-transparent w-100" oninput=${oncandidateinput} value="${state.currentCandidate || ''}" placeholder="Option 1" name="candidate"/>
       </span>`,
-      label: 'Sign',
-      data: JSON.stringify(state.votes, null, 2),
-      cb: function () {
-         if (!state.currentCandidate) {
-          alert('Insert an option')
+        label: 'Sign',
+        data: JSON.stringify(state.votes, null, 2),
+        cb: function () {
+          if (!state.currentCandidate) {
+            alert('Insert an option')
+            return false
+          }
+
+          var cand = state.currentCandidate // avoid concurrency issue
+          var votes = []
+          var missing = state.pubs.length
+          state.pubs.map(function (pub, i) {
+            state.tree.vote(pub, state.secs[i], cand, function (err, vote) {
+              if (missing === 0) return
+
+              if (err) {
+                missing = 0
+                return console.error(err)
+              }
+
+              missing--
+              votes[i] = vote
+
+              if (missing === 0) {
+                state.votes = votes
+                emit('render')
+              }
+            })
+          })
           return false
         }
-
-        var cand = state.currentCandidate // avoid concurrency issue
-        var votes = []
-        var missing = state.pubs.length
-        state.pubs.map(function (pub, i) {
-          state.tree.vote(pub, state.secs[i], cand, function (err, vote) {
-            if (missing === 0) return
-
-            if (err) {
-              missing = 0
-              return console.error(err)
-            }
-
-            missing--
-            votes[i] = vote
-
-            if (missing === 0) {
-              state.votes = votes
-              emit('render')
-            }
-          })
-        })
-        return false
-      }
-    }))
+      }))
+    }
   }
 
   if (state.ballot && state.currentTab == 'vote') {
@@ -399,7 +401,7 @@ function render (state, emit) {
           <a href="https://support.bitfinex.com/hc/en-us/articles/360005265234" target="_blank" class="f6 no-underline dib v-mid ba ph3 pv2 pointer dim">HELP <img src="assets/exlink.svg" alt="external-link"></a>
         </div>
       </header>
-      ${state.currentTab == 'home' || (!state.currentTab || !state.tree || !state.pubs || !state.secs) ? html`
+      ${state.currentTab == 'home' || !state.currentTab ? html`
         <div class="${uploadsCss} w-50-ns pr4-ns">
           <dd class="${descCss} ml3 mt1 gray">Drag and drop the following files to activate the app</dd>
           <div>
