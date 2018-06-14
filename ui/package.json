@@ -1,6 +1,6 @@
 {
-  "name": "antani-ui",
-  "version": "1.0.0",
+  "name": "ballot-ui",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "build": "bankai build index.js",
